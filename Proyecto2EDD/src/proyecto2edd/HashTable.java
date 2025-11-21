@@ -6,7 +6,7 @@ package proyecto2edd;
 
 /**
  *
- * @author Gemelos
+ * @author 
  */
 public class HashTable {
     

@@ -6,8 +6,12 @@ package proyecto2edd;
 
 /**
  *
- * @author Gemelos
+ * @author 
  */
 public class Arbol {
+    private Nodo root;
     
+    public Arbol() {
+        this.root = null;
+    }
 }
