@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -43,7 +44,7 @@ public class Interfaz extends javax.swing.JFrame {
                     FileReader archivo=new FileReader(archivo_elegido);
                     BufferedReader leer=new BufferedReader(archivo);
                     while(!(txt=leer.readLine()).equals("Autores")){
-                        auxTitulo += txt;
+                        auxTitulo += txt + " ";
                     }                   
                     while(!(txt=leer.readLine()).equals("Resumen")){
                         auxAutor += txt + ", ";
@@ -54,13 +55,17 @@ public class Interfaz extends javax.swing.JFrame {
                     while((txt=leer.readLine())!=null){
                         auxPClave += txt + ", ";
                     }
-                String[] x = auxAutor.split(", ");
-                String[] y = auxPClave.split(", ");
-                
-                Elementos_Hash elem = new Elementos_Hash(auxTitulo, x, auxResumen, y);
-                entrada.insertar(elem);
-                }  
-                
+                    String[] x = auxAutor.split(", ");
+                    String[] y = auxPClave.split(", ");
+
+                    if(entrada.buscar(auxTitulo)==null){
+                    Elementos_Hash elem = new Elementos_Hash(auxTitulo, x, auxResumen, y);
+                    entrada.insertar(elem);
+                    }
+                    else{
+                        return "El resumen ya existe, por favor seleccione otro resumen para añadir";
+                    }
+                }     
         }catch(Exception e){
         return "Ha ocurrido un error";
         }
@@ -108,7 +113,7 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        agregar_Resumen(info, auth, pClave);
+        JOptionPane.showMessageDialog(rootPane, agregar_Resumen(info, auth, pClave));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
