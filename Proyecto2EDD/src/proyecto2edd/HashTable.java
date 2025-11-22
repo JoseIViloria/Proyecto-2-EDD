@@ -38,8 +38,9 @@ public class HashTable {
         this.set_table(elem, index);
     }
     
-    public Elementos_Hash buscar(Elementos_Hash elem){
-        int index = this.get_index(elem);
+    public Elementos_Hash buscar(String elem){
+        Elementos_Hash aux = new Elementos_Hash(elem, null, null, null);
+        int index = this.get_index(aux);
         return this.get_table(index);
     }
 

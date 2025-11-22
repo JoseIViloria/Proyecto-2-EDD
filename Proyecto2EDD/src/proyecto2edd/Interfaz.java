@@ -4,14 +4,20 @@
  */
 package proyecto2edd;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import javax.swing.JFileChooser;
+
 /**
  *
- * @author Gemelos
+ * @author 
  */
 public class Interfaz extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Interfaz.class.getName());
-
+    HashTable info = new HashTable(301);
+    HashAlt pClave = new HashAlt(301);
+    HashAlt auth = new HashAlt(301);
     /**
      * Creates new form Interfaz
      */
@@ -19,6 +25,47 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    public String agregar_Resumen(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav){
+            String txt;
+            String auxTitulo = "";    
+            String auxAutor = "";
+            String auxResumen = "";
+            String auxPClave = "";
+            try{
+                JFileChooser elegir_archivo = new JFileChooser();
+                elegir_archivo.showOpenDialog(this);
+                File archivo_elegido = elegir_archivo.getSelectedFile();
+                if (archivo_elegido==null){
+                    return "Ningún archivo fue elegido";
+                }
+                else{
+                    FileReader archivo=new FileReader(archivo_elegido);
+                    BufferedReader leer=new BufferedReader(archivo);
+                    while(!(txt=leer.readLine()).equals("Autores")){
+                        auxTitulo += txt;
+                    }                   
+                    while(!(txt=leer.readLine()).equals("Resumen")){
+                        auxAutor += txt + ", ";
+                    }
+                    while(!(txt=leer.readLine()).equals("")){
+                        auxResumen += txt + " ";
+                    }
+                    while((txt=leer.readLine())!=null){
+                        auxPClave += txt + ", ";
+                    }
+                String[] x = auxAutor.split(", ");
+                String[] y = auxPClave.split(", ");
+                
+                Elementos_Hash elem = new Elementos_Hash(auxTitulo, x, auxResumen, y);
+                entrada.insertar(elem);
+                }  
+                
+        }catch(Exception e){
+        return "Ha ocurrido un error";
+        }
+        return "Se ha leído el archivo";
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,6 +76,7 @@ public class Interfaz extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1280, 720));
@@ -36,6 +84,14 @@ public class Interfaz extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jButton1.setText("Agregar Resumen");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 170, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -51,11 +107,16 @@ public class Interfaz extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        agregar_Resumen(info, auth, pClave);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }
