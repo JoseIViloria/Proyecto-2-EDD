@@ -1,0 +1,60 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package proyecto2edd;
+
+/**
+ *
+ * @author Gemelos
+ */
+public class HashAlt {
+    private ElementosHalt[] table;
+    private int size;
+
+    public HashAlt(int size) {
+        this.size = size;
+        this.table = new ElementosHalt[size];
+    }
+    
+    
+    public ElementosHalt get_table(int index){
+        return table[index];
+    }
+    
+    public void set_table(ElementosHalt elem, int atIndex){
+        this.table[atIndex] = elem;
+    }
+    
+    public int get_index(ElementosHalt elem){
+        int hash = 0;
+        for(int i=0; i<elem.getKey().length(); i++){
+            hash = (31*(i) + elem.getKey().charAt(i))/2*(i+1);
+        }
+        return hash % this.getSize();
+    }
+    
+    public void insertar(ElementosHalt elem){
+        int index = this.get_index(elem);
+        this.set_table(elem, index);
+    }
+    
+    public ElementosHalt buscar(ElementosHalt elem){
+        int index = this.get_index(elem);
+        return this.get_table(index);
+    }
+
+    /**
+     * @return the size
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * @param size the size to set
+     */
+    public void setSize(int size) {
+        this.size = size;
+    }
+}
