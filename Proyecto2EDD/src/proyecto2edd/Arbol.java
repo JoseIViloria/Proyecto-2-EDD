@@ -5,6 +5,7 @@
 package proyecto2edd;
 import java.util.Locale;
 import java.text.Collator;
+
 /**
  *
  * @author 
@@ -15,6 +16,7 @@ public class Arbol {
     public Arbol() {
         this.root = null;
     }
+
     
     public boolean esVacio(Nodo tRoot){
         return tRoot==null;
@@ -120,6 +122,4 @@ public class Arbol {
         return rebalancear(raíz);
     }
     
-    
-
 }

@@ -37,13 +37,14 @@ public class Nodo {
         this.altura = altura;
     }
     
-
+    public Nodo(Nodo hijo_der, Nodo hijo_izq, String autor) {
+        this.hijo_der = hijo_der;
+        this.hijo_izq = hijo_izq;
+        this.autor = autor;
+    }
     /**
      * @return the hijo_der
      */
-    public Nodo getHijo_der() {
-        return hijo_der;
-    }
 
     /**
      * @param hijo_der the hijo_der to set
@@ -78,6 +79,10 @@ public class Nodo {
      */
     public void setautor(String autor) {
         this.autor = autor;
+    }
+
+    public Nodo getHijo_der() {
+        return hijo_der; 
     }
     
 }
