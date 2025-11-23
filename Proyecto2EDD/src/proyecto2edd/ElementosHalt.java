@@ -5,7 +5,7 @@
 package proyecto2edd;
 
 /**
- *  Esta clase funciona para crear un Hash table que permite relacionar a autores o palabras clave con investigaciones.
+ *  Esta clase funciona para crear elementos dentro de un hash table, lo que permite relacionar a autores o palabras clave con un título.
  * @author Gemelos
  */
 public class ElementosHalt {
@@ -20,37 +20,44 @@ public class ElementosHalt {
     }
 
     /**
-     * @return the key
+     * @return key
      */
     public String getKey() {
         return key;
     }
 
     /**
-     * @param key the key to set
+     * @param key - el nuevo "key"
      */
     public void setKey(String key) {
         this.key = key;
     }
 
     /**
-     * @return the titulo
+     * @return titulo - el titulo del resumen al que pertenece "key"
      */
     public String getTitulo() {
         return titulo;
     }
 
     /**
-     * @param titulo the titulo to set
+     * @param titulo - el nuevo título
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
+    /**
+     * Cambia el "apuntador" a u siguiente elemento
+     * @param next - el siguiente elemento ElementosHalt
+     */
     public void setNext(ElementosHalt next) {
         this.next = next;
     }
 
+    /**
+     * @return next - el siguiente elemento
+     */
     public ElementosHalt getNext() {
         return next;
     }

@@ -43,7 +43,7 @@ public class HashTable {
     }
     
     /**
-     * Función que regresa el "Hash" de um titulo dentro de un objeto Elementos_Hash
+     * Función que regresa el "Hash" de un titulo dentro de un objeto Elementos_Hash
      * @param elem - El elemento del cual se desea buscar el hash
      * @return 
      */
