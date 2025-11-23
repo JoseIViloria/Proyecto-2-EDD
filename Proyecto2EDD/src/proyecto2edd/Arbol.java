@@ -130,19 +130,17 @@ public class Arbol {
         actualizaraltura(n);
         actualizaraltura(der);
         return der;
-    }
-   
-    
+    }    
     
     public void insertarnodo(Nodo raíz, String AUTOR){
         this.root = insertar(this.root, AUTOR);
     }    
    
-    public String preorden(Nodo a, String x){
+    public String inorden(Nodo a, String x){
         if (a!=null){
-            x += a.getAutor() + " ";
-            x = preorden(a.getHijo_izq(),x);
-            x = preorden(a.getHijo_der(),x);
+            x = inorden(a.getHijo_izq(),x);
+            x += a.getAutor() + ", ";
+            x = inorden(a.getHijo_der(),x);
         }
         return x;
     }
