@@ -12,12 +12,31 @@ public class ElementosHalt {
     private String key;
     private String titulo;
     private ElementosHalt next;
-
+    private int frecuencia;
+    
     public ElementosHalt(String key, String titulo) {
         this.key = key;
         this.titulo = titulo;
         this.next = null;
+        this.frecuencia = 0;
     }
+
+    /**
+     * 
+     * @return frecuencia
+     */
+    public int getFrecuencia() {
+        return frecuencia;
+    }
+    
+    /**
+     * 
+     * @param frecuencia - la nueva frecuencia
+     */
+    public void setFrecuencia(int frecuencia) {
+        this.frecuencia = frecuencia;
+    }
+    
 
     /**
      * @return key
@@ -48,7 +67,7 @@ public class ElementosHalt {
     }
 
     /**
-     * Cambia el "apuntador" a u siguiente elemento
+     * Cambia el "apuntador" a un siguiente elemento
      * @param next - el siguiente elemento ElementosHalt
      */
     public void setNext(ElementosHalt next) {

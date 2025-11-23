@@ -36,7 +36,7 @@ public class Interfaz extends javax.swing.JFrame {
      * @param entradaClav
      * @return 
      */
-    public String agregar_Resumen(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav, Arbol wordTree, Arbol authTree, Arbol titleTree){
+    public String agregar_Resumen(HashTable entrada, HashAlt entradaAut, HashAlt entradaClave, Arbol wordTree, Arbol authTree, Arbol titleTree){
             String txt;
             String auxTitulo = "";    
             String auxAutor = "";
@@ -79,11 +79,13 @@ public class Interfaz extends javax.swing.JFrame {
                     }
                     for(int i= 0; i<y.length; i++){
                         ElementosHalt palabras_clave = new ElementosHalt(y[i], auxTitulo);
-                            entradaClav.insertar(palabras_clave);
+                            entradaClave.insertar(palabras_clave);
                             wordTree.insertarnodo(wordTree.getroot(), y[i]);
                     }
                     
                     entrada.insertar(elem);
+                    
+                    actualizarfrecuencia(elem,entradaClave);
                     
                     titleTree.insertarnodo(titleTree.getroot(), auxTitulo);
                     
@@ -97,6 +99,49 @@ public class Interfaz extends javax.swing.JFrame {
         }
         return "Se ha leído el archivo";
     }
+    
+    public String simplificar (String string){
+        String resultado = string.replace("\r", " ").replace("\n", " ");
+        resultado = resultado.replaceAll("[^\\p{L}\\p{Nd}\\s]+", " ");
+        resultado = resultado.toLowerCase().replaceAll("\\s+", " ").trim();
+        return resultado;
+    }
+    
+    public int contar(String entradaResumen, String Clave){
+        int index=0;
+        String analizar = simplificar(entradaResumen);
+        String simplificarClave = simplificar(Clave);
+        int desde = 0;
+        int contador = 0;
+        while((index = analizar.indexOf(simplificarClave, desde))!=-1){
+            contador ++;
+            desde = index + simplificarClave.length();
+        }
+        return contador;
+    }
+    
+    public void actualizarfrecuencia(Elementos_Hash entrada,HashAlt entradaClave){
+        String resumen = entrada.getResumen();
+        String [] PClave = entrada.getP_clave();
+        for (int i = 0; i < PClave.length; i++) {
+            String clave = PClave[i];
+            int cuenta = contar(resumen,clave);
+            if (cuenta>0){
+                ElementosHalt nodo = entradaClave.buscar(clave);
+                ElementosHalt aux = nodo;
+                String clavesimple = simplificar(clave);
+                //revisar si hace falta simplificar la clave que entra
+                while(aux!=null){
+                    if(simplificar(aux.getKey()).equals(clavesimple) && aux.getTitulo().equals(entrada.getTitulo())){
+                        aux.setFrecuencia(aux.getFrecuencia() + cuenta);
+                        break;
+                    }
+                    aux =aux.getNext();
+                }
+            }
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -318,9 +363,11 @@ public class Interfaz extends javax.swing.JFrame {
            }
            x+=elem.getAutores()[elem.getAutores().length-1];
            jTextArea1.setText("Nombre del trabajo: " + elem.getTitulo() +"\nAutor(es): " + x + "\nPalabas Clave:");
-           /*
-           Continuar
-           */
+           for (int i = 0; i < elem.getP_clave().length ; i++) {
+               ElementosHalt y = pClave.buscar(elem.getP_clave()[i]);
+               x = y.getFrecuencia() +"";
+               jTextArea1.append("\n"+ elem.getP_clave()[i]+ ", Frecuencia:" + x + " ");
+           }
        }catch(Exception a){
         
     }

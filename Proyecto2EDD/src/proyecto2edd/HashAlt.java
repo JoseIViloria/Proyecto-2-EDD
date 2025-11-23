@@ -72,7 +72,7 @@ public class HashAlt {
     
      /**
      * A partir de un String, busca el elemento correspondiente en la tabla
-     * @param elem - El campo "título" del eleento que se quiere buscar
+     * @param elem - El campo "título" del elemento que se quiere buscar
      * @return 
      */
     public ElementosHalt buscar(String elem){
