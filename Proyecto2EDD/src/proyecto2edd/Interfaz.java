@@ -11,7 +11,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
- *
+ * Interfaz del programa. 
  * @author 
  */
 public class Interfaz extends javax.swing.JFrame {
@@ -26,7 +26,13 @@ public class Interfaz extends javax.swing.JFrame {
         initComponents();
     }
 
-    
+    /**
+     * Deja al usuario elegir un archivo, a partir del cual se extraerá la información.
+     * @param entrada
+     * @param entradaAut
+     * @param entradaClav
+     * @return 
+     */
     public String agregar_Resumen(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav){
             String txt;
             String auxTitulo = "";    
@@ -57,10 +63,23 @@ public class Interfaz extends javax.swing.JFrame {
                     }
                     String[] x = auxAutor.split(", ");
                     String[] y = auxPClave.split(", ");
+                    y[0] = y[0].replace("Palabras Claves: ", "");
+                    y[y.length-1] = y[y.length-1].replace(".", "");
 
                     if(entrada.buscar(auxTitulo)==null){
                     Elementos_Hash elem = new Elementos_Hash(auxTitulo, x, auxResumen, y);
+                  
+                    for(int i= 0; i<x.length; i++){
+                        ElementosHalt autores = new ElementosHalt(x[i], auxTitulo);
+                            entradaAut.insertar(autores);
+                    }
+                    for(int i= 0; i<y.length; i++){
+                        ElementosHalt palabras_clave = new ElementosHalt(y[i], auxTitulo);
+                            entradaClav.insertar(palabras_clave);
+                    }
+                    
                     entrada.insertar(elem);
+                    
                     }
                     else{
                         return "El resumen ya existe, por favor seleccione otro resumen para añadir";
@@ -114,11 +133,11 @@ public class Interfaz extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         JOptionPane.showMessageDialog(rootPane, agregar_Resumen(info, auth, pClave));
+        ElementosHalt x = new ElementosHalt("ingeniería de dominio", null);
+        System.out.println(pClave.get_index(x));
+        System.out.println(pClave.buscar(x).getKey());
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

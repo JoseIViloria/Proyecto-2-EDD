@@ -5,14 +5,11 @@
 package proyecto2edd;
 
 /**
- *
+ * Clase principal (main) del proyecto
  * @author 
  */
 public class Proyecto2EDD {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         Interfaz ventana = new Interfaz();
         ventana.setVisible(true);

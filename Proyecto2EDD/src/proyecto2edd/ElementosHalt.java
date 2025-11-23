@@ -11,10 +11,12 @@ package proyecto2edd;
 public class ElementosHalt {
     private String key;
     private String titulo;
+    private ElementosHalt next;
 
     public ElementosHalt(String key, String titulo) {
         this.key = key;
         this.titulo = titulo;
+        this.next = null;
     }
 
     /**
@@ -44,6 +46,12 @@ public class ElementosHalt {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
-    
-    
+
+    public void setNext(ElementosHalt next) {
+        this.next = next;
+    }
+
+    public ElementosHalt getNext() {
+        return next;
+    }
 }

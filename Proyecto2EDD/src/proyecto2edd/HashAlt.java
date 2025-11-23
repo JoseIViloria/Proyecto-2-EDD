@@ -36,7 +36,16 @@ public class HashAlt {
     
     public void insertar(ElementosHalt elem){
         int index = this.get_index(elem);
-        this.set_table(elem, index);
+        if(this.get_table(index)==null){
+            this.set_table(elem, index);
+        }
+        else{
+            ElementosHalt aux = this.get_table(index);
+            while(aux.getNext()!=null){
+                aux = aux.getNext();
+            }
+            aux.setNext(elem);
+        }
     }
     
     public ElementosHalt buscar(ElementosHalt elem){
