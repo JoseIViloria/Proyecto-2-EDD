@@ -49,9 +49,7 @@ public class HashTable {
      */
     public int get_index(Elementos_Hash elem){
         int hash = 0;
-        for(int i=0; i<elem.getTitulo().length(); i++){
-            hash = (31*(i) + elem.getTitulo().charAt(i))/2*(i+1);
-        }
+        hash = (31*(elem.getTitulo().length()) + elem.getTitulo().toLowerCase().charAt(0))/7*(elem.getTitulo().charAt(elem.getTitulo().toLowerCase().length()-1)+1);
         return hash % this.getSize();
     }
     
