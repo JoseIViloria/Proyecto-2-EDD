@@ -12,18 +12,13 @@ public class Nodo {
     private Nodo hijo_der;
     private Nodo hijo_izq;
     private String autor;
+    private int altura;
 
-    public Nodo(Nodo hijo_der, Nodo hijo_izq, String autor) {
-        this.hijo_der = hijo_der;
-        this.hijo_izq = hijo_izq;
+    public Nodo(String autor) {
+        this.hijo_der = null;
+        this.hijo_izq = null;
         this.autor = autor;
-    }
-
-    /**
-     * @return the hijo_der
-     */
-    public Nodo getHijo_der() {
-        return hijo_der;
+        this.altura = 0;
     }
 
     /**
@@ -31,6 +26,10 @@ public class Nodo {
      */
     public void setHijo_der(Nodo hijo_der) {
         this.hijo_der = hijo_der;
+    }
+    
+    public Nodo getHijo_der() {
+        return hijo_der; 
     }
 
     /**
@@ -50,15 +49,24 @@ public class Nodo {
     /**
      * @return the autor
      */
-    public String getautor() {
+    public String getAutor() {
         return autor;
     }
 
     /**
      * @param autor the autor to set
      */
-    public void setautor(String autor) {
+    public void setAutor(String autor) {
         this.autor = autor;
     }
+
+       public int getAltura() {
+        return altura;
+    }
+       
+       public void setAltura(int altura){
+           this.altura=altura;
+       }
+
     
 }
