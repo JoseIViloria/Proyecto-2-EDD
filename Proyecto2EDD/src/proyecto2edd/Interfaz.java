@@ -10,7 +10,7 @@ import java.io.FileReader;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-
+import javax.swing.DefaultComboBoxModel;
 /**
  * Interfaz del programa. 
  * @author 
@@ -22,6 +22,7 @@ public class Interfaz extends javax.swing.JFrame {
     HashAlt auth = new HashAlt(301);
     Arbol arbolPalabras = new Arbol();
     Arbol arbolAutores= new Arbol();
+    Arbol arbolTitulo= new Arbol();
     /**
      * Creates new form Interfaz
      */
@@ -38,7 +39,7 @@ public class Interfaz extends javax.swing.JFrame {
      * @param entradaClav
      * @return 
      */
-    public String agregar_Resumen(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav, Arbol wordTree, Arbol authTree){
+    public String agregar_Resumen(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav, Arbol wordTree, Arbol authTree, Arbol titleTree){
             String txt;
             String auxTitulo = "";    
             String auxAutor = "";
@@ -87,6 +88,8 @@ public class Interfaz extends javax.swing.JFrame {
                     
                     entrada.insertar(elem);
                     
+                    titleTree.insertarnodo(titleTree.getroot(), auxTitulo);
+                    
                     }
                     else{
                         return "El resumen ya existe, por favor seleccione otro resumen para añadir";
@@ -132,9 +135,7 @@ public class Interfaz extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1280, 720));
         setMinimumSize(new java.awt.Dimension(1280, 720));
-        setPreferredSize(new java.awt.Dimension(1280, 720));
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1280, 720));
         jPanel1.setPreferredSize(new java.awt.Dimension(1280, 720));
@@ -147,6 +148,11 @@ public class Interfaz extends javax.swing.JFrame {
         });
 
         jButton2.setText("Analizar Resumen");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setFocusable(false);
 
@@ -155,8 +161,6 @@ public class Interfaz extends javax.swing.JFrame {
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jScrollPane1.setViewportView(jTextArea1);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Resumenes cargados");
@@ -350,7 +354,10 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JOptionPane.showMessageDialog(rootPane, agregar_Resumen(info, auth, pClave, arbolPalabras, arbolAutores));
+        JOptionPane.showMessageDialog(rootPane, agregar_Resumen(info, auth, pClave, arbolPalabras, arbolAutores, arbolTitulo));
+        String salida = "";
+        String[] x = arbolTitulo.inorden(arbolTitulo.getroot(), salida).split(", ");
+        jComboBox1.setModel(new DefaultComboBoxModel(x));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
@@ -360,7 +367,23 @@ public class Interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jList1ValueChanged
 
-    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       try{
+           Elementos_Hash elem = info.buscar((String)jComboBox1.getSelectedItem());
+           String x = "";
+           for (int i = 0; i < elem.getAutores().length-1; i++) {
+               x += elem.getAutores()[i]+", ";
+           }
+           x+=elem.getAutores()[elem.getAutores().length-1];
+           jTextArea1.setText("Nombre del trabajo: " + elem.getTitulo() +"\nAutor(es): " + x + "\nPalabas Clave:");
+           /*
+           Continuar
+           */
+       }catch(Exception a){
+        
+    }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
