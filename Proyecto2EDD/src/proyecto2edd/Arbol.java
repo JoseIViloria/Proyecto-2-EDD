@@ -12,11 +12,12 @@ import java.text.Collator;
  */
 public class Arbol {
     private Nodo root;
+    private Collator collator;;
     
     public Arbol() {
         this.root = null;
+        this.collator = Collator.getInstance(new Locale("es", "ES"));
     }
-
     
     public boolean esVacio(Nodo tRoot){
         return tRoot==null;
@@ -41,85 +42,108 @@ public class Arbol {
     
     public int altura(Nodo n){
         if (n==null){
-            return 0;
+            return -1;
         }
-        return n.getAltura();
+        else{
+            return n.getAltura();
+        }
     }
     
     public int balance(Nodo n){
-        
         if (n==null){
             return 0;
         }
-        return altura(n.getHijo_der()) - altura(n.getHijo_izq());
+        return altura(n.getHijo_izq()) - altura(n.getHijo_der());
     }
     
     public Nodo insertar(Nodo raíz, String autor){
-        Collator collator = Collator.getInstance(new Locale("es", "ES"));
-        if (this.root==null){
-            this.setroot(new Nodo(autor));
-        }
         if (esVacio(raíz)){
-            return new Nodo(autor);
+            Nodo nuevo = new Nodo(autor);
+            nuevo.setAltura(0);
+            return nuevo;
         }
-        else if(collator.compare(autor, raíz.getautor())<0){
+        if(this.collator.compare(autor, raíz.getAutor())<0){
             raíz.setHijo_izq(insertar(raíz.getHijo_izq(), autor));
         }
-        else if(collator.compare(autor,raíz.getautor())>0){
+        else if(this.collator.compare(autor,raíz.getAutor())>0){
             raíz.setHijo_der(insertar(raíz.getHijo_der(), autor));
+        } else{
+            return raíz;
+        }
+        actualizaraltura(raíz);
+        int balance = balance(raíz);
+        if(balance>1){
+            if(balance(raíz.getHijo_izq())>=0){
+                return rotarderecha(raíz);
+            }
+            else if(balance(raíz.getHijo_izq())<0){
+                raíz.setHijo_izq(rotarizquierda(raíz.getHijo_izq()));
+                return rotarderecha(raíz);
+            }
+        }
+        if(balance<-1){
+            if(balance(raíz.getHijo_der())<=0){
+                return rotarizquierda(raíz);
+            }
+            else if(balance(raíz.getHijo_der())>0){
+                raíz.setHijo_der(rotarderecha(raíz.getHijo_der()));
+                return rotarizquierda(raíz);
+            }
         }
         return raíz;
     }
     
     public void actualizaraltura(Nodo n){
-        n.setAltura(máximo(altura(n.getHijo_izq()),altura(n.getHijo_der())));
-    }
-    
-    public Nodo rebalancear(Nodo raíz){
-        int balance = balance(raíz);
-        if(balance<-1){
-            if(balance(raíz.getHijo_izq())<=0){
-                raíz = rotarderecha(raíz);
-            }
-            else{
-                raíz.setHijo_izq(rotarizquierda(raíz.getHijo_izq()));
-                raíz=rotarderecha(raíz);
-            }
+        if (n!=null){
+            n.setAltura(máximo(altura(n.getHijo_izq()),altura(n.getHijo_der()))+1);
         }
-        if(balance>1){
-            if(balance(raíz.getHijo_der())>=0){
-                raíz = rotarizquierda(raíz);
-            }
-            else{
-                raíz.setHijo_der(rotarderecha(raíz.getHijo_der()));
-                raíz = rotarizquierda(raíz);
-            }
-        }
-        return raíz;
     }
     
     public Nodo rotarderecha(Nodo n){
+        Nodo X;
         Nodo izq=n.getHijo_izq();
-        n.setHijo_izq(izq.getHijo_der());
+        if (izq!=null){
+            X=izq.getHijo_der();
+        }
+        else{
+            X=null;
+        }
         izq.setHijo_der(n);
+        n.setHijo_izq(X);
         actualizaraltura(n);
         actualizaraltura(izq);
         return izq;
     }
     
+    
     public Nodo rotarizquierda(Nodo n){
+        Nodo X;
         Nodo der = n.getHijo_der();
-        n.setHijo_der(der.getHijo_izq());
+        if(der!=null){
+            X=der.getHijo_izq();
+        }
+        else{
+            X=null;
+        }
         der.setHijo_izq(n);
+        n.setHijo_der(X);
         actualizaraltura(n);
         actualizaraltura(der);
         return der;
     }
+   
     
-    public Nodo InsertarNodo(Nodo raíz, String AUTOR){
-        raíz = insertar(raíz, AUTOR);
-        actualizaraltura(raíz);
-        return rebalancear(raíz);
+    
+    public void insertarnodo(Nodo raíz, String AUTOR){
+        this.root = insertar(this.root, AUTOR);
+    }    
+   
+    public String preorden(Nodo a, String x){
+        if (a!=null){
+            x += a.getAutor() + " ";
+            x = preorden(a.getHijo_izq(),x);
+            x = preorden(a.getHijo_der(),x);
+        }
+        return x;
     }
-    
 }
