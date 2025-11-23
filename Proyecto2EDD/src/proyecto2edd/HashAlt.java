@@ -46,9 +46,7 @@ public class HashAlt {
      */
     public int get_index(ElementosHalt elem){
         int hash = 0;
-        for(int i=0; i<elem.getKey().length(); i++){
-            hash = (31*(i) + elem.getKey().charAt(i))/2*(i+1);
-        }
+        hash = (31*(elem.getKey().length()) + elem.getKey().toLowerCase().charAt(0))/7*(elem.getKey().charAt(elem.getKey().toLowerCase().length()-1)+1);
         return hash % this.getSize();
     }
     

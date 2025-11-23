@@ -5,8 +5,10 @@
 package proyecto2edd;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -28,6 +30,14 @@ public class Interfaz extends javax.swing.JFrame {
      */
     public Interfaz() {
         initComponents();
+        cargarGuardado(info, auth, pClave, arbolPalabras, arbolAutores, arbolTitulo);
+        String salida = "";
+        String[] x = arbolTitulo.inorden(arbolTitulo.getroot(), salida).split(", ");
+        String[] y = arbolAutores.inorden(arbolAutores.getroot(), salida).split(", ");
+        String[] z = arbolPalabras.inorden(arbolPalabras.getroot(), salida).split(", ");
+        jComboBox1.setModel(new DefaultComboBoxModel(x));
+        jComboBox2.setModel(new DefaultComboBoxModel(y));
+        jComboBox3.setModel(new DefaultComboBoxModel(z));
     }
     
     /**
@@ -85,7 +95,7 @@ public class Interfaz extends javax.swing.JFrame {
                     }
                     
                     entrada.insertar(elem);
-                    
+
                     titleTree.insertarnodo(titleTree.getroot(), auxTitulo);
                     
                     }
@@ -97,6 +107,66 @@ public class Interfaz extends javax.swing.JFrame {
         return "Ha ocurrido un error";
         }
         return "Se ha leído el archivo";
+    }
+    
+    /**
+     * Método que permite al programa guardar la información de todos los títulos en un archivo con un formato específico.
+     * Permite guardar cambios entre sesiones.
+     */
+    public void guardarYsalir(){
+        Elementos_Hash elem = new Elementos_Hash(null, null, null, null);
+        String salida = "";
+        String rutaArchivo = "sav.txt";
+        String[] title = arbolTitulo.inorden(arbolTitulo.getroot(), salida).split(", ");
+        try{
+            FileWriter writer = new FileWriter(rutaArchivo);
+            for(int i=0; i<title.length; i++){
+                elem= info.buscar(title[i]);
+                writer.write(elem.getTitulo()+"\n"+arrayAString(elem.getAutores())+"\n"+elem.getResumen()+"\n"+arrayAString(elem.getP_clave())+"\n\n");
+            }
+            writer.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(rootPane, "No se ha podido guardar el archivo");
+        }
+    }
+    
+    public void cargarGuardado(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav, Arbol wordTree, Arbol authTree, Arbol titleTree){
+        try{
+            String titulo = "";
+            String[] autores;
+            String resumen = "";
+            String[] palabrasClaves;
+    
+            File save = new File("sav.txt");
+            FileReader archivo=new FileReader(save);
+            BufferedReader leer=new BufferedReader(archivo);
+            while((titulo=leer.readLine())!=null){
+                autores = leer.readLine().split(", ");
+                autores[autores.length-1] = autores[autores.length-1].replace(".", "");
+                resumen = leer.readLine();
+                palabrasClaves = leer.readLine().split(", ");
+                palabrasClaves[palabrasClaves.length-1] = palabrasClaves[palabrasClaves.length-1].replace(".", "");
+                leer.readLine();
+                
+                Elementos_Hash elemHash = new Elementos_Hash(titulo, autores, resumen, autores);
+                entrada.insertar(elemHash);
+                titleTree.insertarnodo(titleTree.getroot(), titulo);
+                
+                for(int i=0; i<autores.length; i++){
+                    ElementosHalt auxAut = new ElementosHalt(autores[i], titulo);
+                    entradaAut.insertar(auxAut);
+                    authTree.insertarnodo(authTree.getroot(), autores[i]);
+                }
+                for(int i= 0; i<palabrasClaves.length; i++){
+                    ElementosHalt palabras_clave = new ElementosHalt(palabrasClaves[i], titulo);
+                    entradaClav.insertar(palabras_clave);
+                    wordTree.insertarnodo(wordTree.getroot(), palabrasClaves[i]);
+                }
+            }
+            JOptionPane.showMessageDialog(rootPane, "Se han cargado los resumenes correctamente");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "No se ha podido precargar un resumen");
+        }
     }
     
     /**
@@ -188,6 +258,7 @@ public class Interfaz extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 140, 0));
         jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton3.setText("Buscar por palabra clave");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -195,6 +266,7 @@ public class Interfaz extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
+        jPanel2.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 254, 240, 80));
 
         jButton4.setText("Buscar por autor");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -202,41 +274,17 @@ public class Interfaz extends javax.swing.JFrame {
                 jButton4ActionPerformed(evt);
             }
         });
+        jPanel2.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 76, 240, 81));
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Búsqueda de resumenes");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 42, 240, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jComboBox3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(83, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
-        );
+        jPanel2.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 169, 240, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, -1, -1));
+        jPanel2.add(jComboBox3, new org.netbeans.lib.awtextra.AbsoluteConstraints(93, 346, 240, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 260, 420, 410));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Resumenes relacionados:");
@@ -252,6 +300,11 @@ public class Interfaz extends javax.swing.JFrame {
         jButton5.setForeground(new java.awt.Color(255, 204, 120));
         jButton5.setText("Guardar y salir del sistema");
         jButton5.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(924, 329, 320, 240));
 
         jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -351,6 +404,15 @@ public class Interfaz extends javax.swing.JFrame {
         }catch(Exception e){
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        try{
+        this.guardarYsalir();
+        JOptionPane.showMessageDialog(rootPane, "Los cambios se han guardado exitosamente, el programa terminará");
+        System.exit(0);
+        }catch(Exception e){
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
