@@ -13,7 +13,7 @@ public class HashAlt {
     private int size;
 
     /**
-     * Constructor de la clase HashAlt
+     * Constructor de la clase HashAlt con un tamaño especifico
      * @param size - el tamaño de la tabla
      */
     public HashAlt(int size) {
@@ -42,7 +42,7 @@ public class HashAlt {
     /**
      * Función que regresa el "Hash" de un "Key" dentro de un objeto Elementos_Hash
      * @param elem - El elemento del cual se desea buscar el hash
-     * @return 
+     * @return indice calculado , dentro del rango de la tabla
      */
     public int get_index(ElementosHalt elem){
         int hash = 0;
@@ -52,7 +52,7 @@ public class HashAlt {
     
     /**
      * Busca el hash de un elemento y lo inserta en la posición correspondiente de la tabla
-     * @param elem  - elemento a insertar
+     * @param elem  - elemento a insertar en la tabla
      */
     public void insertar(ElementosHalt elem){
         int index = this.get_index(elem);
@@ -71,7 +71,7 @@ public class HashAlt {
      /**
      * A partir de un String, busca el elemento correspondiente en la tabla
      * @param elem - El campo "título" del elemento que se quiere buscar
-     * @return 
+     * @return Primer elemento encontrado relacionado con la clave especifica, o si no se encuentra sera null
      */
     public ElementosHalt buscar(String elem){
         ElementosHalt aux = new ElementosHalt(elem, null);
@@ -80,7 +80,7 @@ public class HashAlt {
     }
 
     /**
-     * @return size - el tamaño de la tabla
+     * @return size - el tamaño actual de la tabla
      */
     public int getSize() {
         return size;
