@@ -10,13 +10,14 @@ package proyecto2edd;
  * Cada objeto se almacena en un índice que dependerá correspondiente al campo "Titulo" del objeto Elementos_Hash 
  * @see Elementos_Hash.
  * @author 
+ * @version 1.0
  */
 public class HashTable {
     private Elementos_Hash[] table;
     private int size;
 
     /**
-     * Constructor de la clase HashTable
+     * Constructor de la clase HashTable 
      * @param size - El tamaño de la tabla
      */
     public HashTable(int size) {
@@ -27,14 +28,15 @@ public class HashTable {
     /**
      * Regresa el objeto ubicado en la posición especificada en la tabla.
      * @param index - La posición del objeto en la tabla
-     * @return - un objeto de la clase Elementos_Hash
+     * @return - un objeto de la clase Elementos_Hash o null si esta vacia
+     * 
      */
     public Elementos_Hash get_table(int index){
         return table[index];
     }
     
     /**
-     * Cambia un elemento en una posición específica de la tabla por otro que se especifique
+     * inserta un elemento en una posición específica de la tabla por otro que se especifique
      * @param elem - El elemento a insertar
      * @param atIndex -  El índice correspondiente a laposición en donde se quiere insertar.
      */
@@ -45,7 +47,7 @@ public class HashTable {
     /**
      * Función que regresa el "Hash" de un titulo dentro de un objeto Elementos_Hash
      * @param elem - El elemento del cual se desea buscar el hash
-     * @return 
+     * @return Hash
      */
     public int get_index(Elementos_Hash elem){
         int hash = 0;
@@ -65,7 +67,7 @@ public class HashTable {
     /**
      * A partir de un título, busca la posición correspondiente del elemento con ese título en la tabla
      * @param elem - El campo "título" del eleento que se quiere buscar
-     * @return 
+     * @return elemento encontrado con el titulo especifico o null si no se encuentrta
      */
     public Elementos_Hash buscar(String elem){
         Elementos_Hash aux = new Elementos_Hash(elem, null, null, null);
