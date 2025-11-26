@@ -208,14 +208,15 @@ public class Interfaz extends javax.swing.JFrame {
     public void cargarGuardado(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav, Arbol wordTree, Arbol authTree, Arbol titleTree){
         try{
             String titulo = "";
-            String[] autores;
+            String[] autores = new String[0];
             String resumen = "";
-            String[] palabrasClaves;
+            String[] palabrasClaves = new String[0];
     
             File save = new File("sav.txt");
             FileReader archivo=new FileReader(save);
             BufferedReader leer=new BufferedReader(archivo);
             while((titulo=leer.readLine())!=null){
+                String x = titulo;
                 autores = leer.readLine().split(", ");
                 autores[autores.length-1] = autores[autores.length-1].replace(".", "");
                 resumen = leer.readLine();
@@ -223,7 +224,7 @@ public class Interfaz extends javax.swing.JFrame {
                 palabrasClaves[palabrasClaves.length-1] = palabrasClaves[palabrasClaves.length-1].replace(".", "");
                 leer.readLine();
                 
-                Elementos_Hash elemHash = new Elementos_Hash(titulo, autores, resumen, autores);
+                Elementos_Hash elemHash = new Elementos_Hash(x, autores, resumen, palabrasClaves);
                 entrada.insertar(elemHash);
                 titleTree.insertarnodo(titleTree.getroot(), titulo);
                 
@@ -237,7 +238,11 @@ public class Interfaz extends javax.swing.JFrame {
                     entradaClav.insertar(palabras_clave);
                     wordTree.insertarnodo(wordTree.getroot(), palabrasClaves[i]);
                 }
+                Elementos_Hash nuevo = new Elementos_Hash(titulo, autores, resumen, palabrasClaves);
+                actualizarfrecuencia(nuevo,entradaClav);
             }
+            
+            
             JOptionPane.showMessageDialog(rootPane, "Se han cargado los resumenes correctamente");
         }catch(Exception e){
             JOptionPane.showMessageDialog(rootPane, "No se ha podido precargar un resumen");
