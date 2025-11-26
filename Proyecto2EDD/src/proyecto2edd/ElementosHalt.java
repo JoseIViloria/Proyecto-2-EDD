@@ -13,6 +13,12 @@ public class ElementosHalt {
     private String titulo;
     private ElementosHalt next;
     private int frecuencia;
+    /** constructor para crear un nuevo elemento para la tabla hash
+     * 
+     * @param key clave del elemento (autor o palabra clave)
+     * @param titulo Titulo del resumen asociado a la key
+     * 
+     */
     
     public ElementosHalt(String key, String titulo) {
         this.key = key;
@@ -20,10 +26,10 @@ public class ElementosHalt {
         this.next = null;
         this.frecuencia = 0;
     }
-
+    
     /**
-     * 
-     * @return frecuencia
+     * obtencio de la frecuencia de apariciones del elemento 
+     * @return frecuencia actual del elemento
      */
     public int getFrecuencia() {
         return frecuencia;
@@ -39,7 +45,8 @@ public class ElementosHalt {
     
 
     /**
-     * @return key
+     * obtener la clave del elemeto (autor o palabra clave)
+     * @return key del elemento
      */
     public String getKey() {
         return key;
