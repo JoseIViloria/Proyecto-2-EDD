@@ -15,6 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.DefaultComboBoxModel;
 /**
  * Interfaz del programa. 
+ * Incluye funciones para agregar, buscar y analizar resumenes
+ * Gestiona autores y palabras claves mediante estructuras de datos
+ * como tablas hash y arboles AVL
  * @author 
  */
 public class Interfaz extends javax.swing.JFrame {
@@ -111,6 +114,12 @@ public class Interfaz extends javax.swing.JFrame {
         }
         return "Se ha leído el archivo";
     }
+    /** 
+     * simplifica una cadena de texto removiendo caracteres especiales
+     * conviertiendo a minusculas y los espacios
+     * @param string Cadena de texto a simplificar
+     * @return cadena simplificada
+     */
     
 
     public String simplificar (String string){
@@ -119,6 +128,12 @@ public class Interfaz extends javax.swing.JFrame {
         resultado = resultado.toLowerCase().replaceAll("\\s+", " ").trim();
         return resultado;
     }
+    /**
+     * cuenta las apariciones de la palabra clave dentro de un resumen
+     * @param entradaResumen-texto dek resumen donde se buscara
+     * @param Clave - palabra clave a buscar
+     * @return  numero de veces que aparecen la palabra clave
+     */
     
     public int contar(String entradaResumen, String Clave){
         int index=0;
@@ -132,6 +147,11 @@ public class Interfaz extends javax.swing.JFrame {
         }
         return contador;
     }
+    /**
+     * actualiza la frecuencia de la aparicion de palabras clave en un resumen
+     * @param entrada - Elemento hash a actualizar
+     * @param entradaClave - tabla hash donde se actualizara la frecuencia
+     */
     
     public void actualizarfrecuencia(Elementos_Hash entrada,HashAlt entradaClave){
         String resumen = entrada.getResumen();
@@ -175,6 +195,15 @@ public class Interfaz extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "No se ha podido guardar el archivo");
         }
     }
+    /**
+     * carga los resumenes guardados 
+     * @param entrada- tabla hash ppal para cargar resumenes
+     * @param entradaAut - tabala hash para autores
+     * @param entradaClav - tabla hash para palabras clave
+     * @param wordTree arbol AVL para palabras clave
+     * @param authTree arbol AVL para autores
+     * @param titleTree  arbol AVL para titulos
+     */
     
     public void cargarGuardado(HashTable entrada, HashAlt entradaAut, HashAlt entradaClav, Arbol wordTree, Arbol authTree, Arbol titleTree){
         try{
