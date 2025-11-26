@@ -14,6 +14,14 @@ public class Elementos_Hash {
     private String resumen;
     private String[] p_clave;
     private Elementos_Hash next;
+    /** 
+     * crea un nuevo elemento de resumen 
+     * 
+     * @param titulo - titulo del resumen
+     * @param autores - arreglo de autores 
+     * @param resumen - contenido textual 
+     * @param p_clave - arreglo de palabras claves relacionadas
+     */
 
     public Elementos_Hash(String titulo, String[] autores, String resumen, String[] p_clave) {
         this.titulo = titulo;
@@ -24,21 +32,21 @@ public class Elementos_Hash {
     }
 
     /**
-     * @return titulo
+     * @return titulo - titulo del resumen
      */
     public String getTitulo() {
         return titulo;
     }
 
     /**
-     * @param titulo - el titulo al que se quiere cambiar
+     * @param titulo - nuevo titulo al que se quiere cambiar
      */
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
 
     /**
-     * @return autores
+     * @return autores- arreglo de nombres de autores
      */
     public String[] getAutores() {
         return autores;
@@ -52,13 +60,14 @@ public class Elementos_Hash {
     }
 
     /**
-     * @return resumen
+     * @return resumen - obtiene el contenido del resumen
      */
     public String getResumen() {
         return resumen;
     }
 
     /**
+     * establece un nuevo contenido para el resumen
      * @param resumen - el resumen al que se quiere cambiar
      */
     public void setResumen(String resumen) {
@@ -66,13 +75,14 @@ public class Elementos_Hash {
     }
 
     /**
-     * @return p_clave
+     * @return p_clave- obtiene el arreglo de palabras clave
      */
     public String[] getP_clave() {
         return p_clave;
     }
 
     /**
+     * nuevo arreglo de palabras clave 
      * @param p_clave - p_clave al que se quiere cambiar
      */
     public void setP_clave(String[] p_clave) {
